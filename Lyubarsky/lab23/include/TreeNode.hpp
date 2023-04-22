@@ -3,17 +3,22 @@
 #include <iostream>
 
 template<typename T>
+class Tree;
+
+template<typename T>
 class TreeNode{
+    friend class Tree<T>;
 public:
     TreeNode();
-    TreeNode(T);
-    TreeNode(T, TreeNode*, TreeNode*);
+    TreeNode(const T&);
+    TreeNode(const T&, TreeNode*, TreeNode*);
 
+private:
     T data;
     int64_t depth = 0;
 
-    TreeNode* nextLeftNode;
-    TreeNode* nextRightNode;
+    TreeNode<T>* nextLeftNode;
+    TreeNode<T>* nextRightNode;
 };
 
 #include "../src/TreeNode.cpp"

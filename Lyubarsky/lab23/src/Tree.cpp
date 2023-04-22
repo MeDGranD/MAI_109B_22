@@ -13,11 +13,13 @@ Tree<T>::Tree(const T& data){
 }
 
 template<typename T>
+TreeNode<T>* Tree<T>::getRoot(){
+    return this->root;
+}
+
+template<typename T>
 void Tree<T>::addNode(const T& newData, TreeNode<T>* node){
-    if (node->data == newData) {
-        std::cout << "This node is already exist!" << std::endl;
-    }
-    else if (node->data > newData){
+    if (node->data > newData){
         if (node->nextLeftNode == nullptr){
             node->nextLeftNode = new TreeNode<T>(newData);
             node->nextLeftNode->depth = node->depth + 1;
@@ -26,7 +28,7 @@ void Tree<T>::addNode(const T& newData, TreeNode<T>* node){
             addNode(newData, node->nextLeftNode);
         }
     }
-    else if (node->data < newData){
+    else if (node->data <= newData){
         if (node->nextRightNode == nullptr){
             node->nextRightNode = new TreeNode(newData);
             node->nextRightNode->depth = node->depth + 1;
@@ -103,28 +105,28 @@ void Tree<T>::linearize(TreeNode<T>* node) const {
 
     linearize(node->nextLeftNode);
 
-    if (!linear) { 
-        if (node == root){
-            std::cout << "This tree is not linear!" << std::endl;
-        }
-        return; 
+    if ((node->nextRightNode != nullptr) && (node != root)) { 
+        linear = false; 
+        return;
     }
 
-    if ((node->nextRightNode != nullptr) && (node != root)) { linear = false; return;}
     if (node != root) { return; }
 
     linearize(node->nextRightNode);
 
-    if (!linear) { 
-        if (node == root){
-            std::cout << "This tree is not linear!" << std::endl;
-        }
+    if ((node->nextLeftNode != nullptr) && (node != root)) { 
+        linear = false; 
         return; 
     }
 
-    if ((node->nextLeftNode != nullptr) && (node != root)) { linear = false; return; }
-
-    std::cout << "This tree is linear!" << std::endl;
+    if (node == root){
+        if (linear){
+            std::cout << "This tree is linear!" << std::endl;
+        }
+        else {
+            std::cout << "This tree is not linear" << std::endl;
+        }
+    }
 }
 
 template<typename T>

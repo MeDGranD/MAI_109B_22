@@ -8,14 +8,14 @@ TreeNode<T>::TreeNode(){
 }
 
 template<typename T>
-TreeNode<T>::TreeNode(T data){
+TreeNode<T>::TreeNode(const T& data){
     this->data = data;
     this->nextLeftNode = nullptr;
     this->nextRightNode = nullptr;
 }
 
 template<typename T>
-TreeNode<T>::TreeNode(T data, TreeNode* nextLeftNode, TreeNode* nextRightNode){
+TreeNode<T>::TreeNode(const T& data, TreeNode* nextLeftNode, TreeNode* nextRightNode){
     this->data = data;
     this->nextLeftNode = nextLeftNode;
     this->nextRightNode = nextRightNode;

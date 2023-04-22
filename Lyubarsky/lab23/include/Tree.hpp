@@ -9,6 +9,8 @@ public:
     Tree();
     Tree(const T&);
 
+    TreeNode<T>* getRoot();
+
     void addNode(const T&, TreeNode<T>*);
     TreeNode<T>* deleteNode(const T&, TreeNode<T>*);
 
@@ -18,6 +20,7 @@ public:
     void deleteTree(TreeNode<T>*);
     ~Tree();
 
+private:
     TreeNode<T>* root = nullptr;
 };
 
