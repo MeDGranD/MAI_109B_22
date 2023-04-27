@@ -13,7 +13,7 @@ Tree<T>::Tree(const T& data){
 }
 
 template<typename T>
-TreeNode<T>* Tree<T>::getRoot(){
+TreeNode<T>* Tree<T>::getRoot() const{
     return this->root;
 }
 

@@ -9,7 +9,7 @@ public:
     Tree();
     Tree(const T&);
 
-    TreeNode<T>* getRoot();
+    TreeNode<T>* getRoot() const;
 
     void addNode(const T&, TreeNode<T>*);
     TreeNode<T>* deleteNode(const T&, TreeNode<T>*);
