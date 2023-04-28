@@ -18,7 +18,7 @@ jobs:
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp|.tpp' | tr '\n' ' ')
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
-            python3 tools/run_project.py --run_type=build --files ${LIST_CHECK_FILES}
+            python3 tools/run_project.py --run_type=build --files=${LIST_CHECK_FILES}
           else
             echo "Nothing to build"
           fi
@@ -31,7 +31,7 @@ jobs:
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp|.tpp' | tr '\n' ' ')
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
-            python3 tools/run_project.py --run_type=tests --files ${LIST_CHECK_FILES}
+            python3 tools/run_project.py --run_type=tests --files=${LIST_CHECK_FILES}
           else
             echo "Nothing to test"
           fi
