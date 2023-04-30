@@ -14,7 +14,7 @@ public:
     void addNode(const T&, TreeNode<T>*);
     TreeNode<T>* deleteNode(const T&, TreeNode<T>*);
 
-    void linearize(TreeNode<T>*) const;
+    void linearize(TreeNode<T>*);
     void visualize(TreeNode<T>*) const;
 
     void deleteTree(TreeNode<T>*);
@@ -22,6 +22,7 @@ public:
 
 private:
     TreeNode<T>* root = nullptr;
+    bool linear;
 };
 
 #include "../src/Tree.cpp"

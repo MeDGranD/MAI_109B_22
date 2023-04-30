@@ -4,12 +4,14 @@ template<typename T>
 Tree<T>::Tree(){
     this->root = new TreeNode<T>(0);
     this->root->depth = 0;
+    this->linear = true;
 }
 
 template<typename T>
 Tree<T>::Tree(const T& data){
     this->root = new TreeNode<T>(data);
     this->root->depth = 0;
+    this->linear = true;
 }
 
 template<typename T>
@@ -99,13 +101,11 @@ void Tree<T>::visualize(TreeNode<T>* node) const {
 }
 
 template<typename T>
-void Tree<T>::linearize(TreeNode<T>* node) const {
-    static bool linear = true;
+void Tree<T>::linearize(TreeNode<T>* node) {
     if (node == nullptr) { return; }
-
     linearize(node->nextLeftNode);
 
-    if ((node->nextRightNode != nullptr) && (node != root)) { 
+    if ((node->nextRightNode != nullptr) && (node != root) && (node->data < this->root->data)) { 
         linear = false; 
         return;
     }
@@ -114,7 +114,7 @@ void Tree<T>::linearize(TreeNode<T>* node) const {
 
     linearize(node->nextRightNode);
 
-    if ((node->nextLeftNode != nullptr) && (node != root)) { 
+    if ((node->nextLeftNode != nullptr) && (node != root) && (node->data >= this->root->data)) { 
         linear = false; 
         return; 
     }
