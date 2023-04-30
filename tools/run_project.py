@@ -35,6 +35,7 @@ def groub_by_labs(files: List[str]) -> Dict[str, str]:
         else:
             lab = search_result.group()
         labs_category[lab] = os.path.join(file.split(lab)[0], lab)
+        print('for ' + lab + ' add path: ' + os.path.join(file.split(lab)[0], lab))
 
     return labs_category
 
@@ -47,9 +48,12 @@ def change_dir_back(path: str):
 
 def main():
     run_type, files = get_args()
+    print('run_type is ' + run_type)
+    print('files to check ' + files)
     labs_category = groub_by_labs(files)
     for _, path in labs_category.items():
         with change_dir_back(path):
+            print('running for ' + path)
             if run_type == 'build':
                 build()
             elif run_type == 'tests':
