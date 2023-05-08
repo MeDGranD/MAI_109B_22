@@ -5,7 +5,7 @@ Matrix::Matrix(){
     this->A.push_back(-1);
 }
 
-Matrix::Matrix(const std::string fileName){
+Matrix::Matrix(const std::string& fileName){
 
     std::fstream file;
     std::string getterStr;

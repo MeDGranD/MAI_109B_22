@@ -9,7 +9,7 @@
 class Matrix{
 public:
     Matrix();
-    Matrix(const std::string);
+    Matrix(const std::string&);
 
     Matrix& operator*=(const int64_t);
     void print() const;

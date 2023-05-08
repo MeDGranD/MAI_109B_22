@@ -127,8 +127,7 @@ void Vector<T>::emplace_back(const Args&...args){
 template<typename T>
 void Vector<T>::pop_back(){
     if (this->arraySize == 0){
-        std::cout << "Can`t pop_back zero sized vector!" << std::endl;
-        throw std::exception();
+        return;
     }
     this->resize(this->arraySize - 1);
 }
@@ -136,45 +135,29 @@ void Vector<T>::pop_back(){
 template<typename T>
 T& Vector<T>::at(const size_t index) const{
     if ((index >= this->arraySize)||(index < 0)){
-        std::cout << "Incorrect vector index!" << std::endl;
-        throw std::exception();
+        throw std::exception("Incorrect vector index!");
     }
     return this->Array[index];
 }
 
 template<typename T>
 T& Vector<T>::operator[](const size_t index) const{
-    if ((index >= this->arraySize)||(index < 0)){
-        std::cout << "Incorrect vector index!" << std::endl;
-        throw std::exception();
-    }
     return this->Array[index];
 }
 
 template<typename T>
 T& Vector<T>::front() const{
-    if (this->arraySize == 0){
-        std::cout << "Vector size equals zero, there is no front!" <<std::endl;
-        throw std::exception();
-    }
     return this->Array[0];
 }
 
 template<typename T>
 T& Vector<T>::back() const{
-    if (this->arraySize == 0){
-        std::cout << "Vector size equals zero, there is no back!" << std::endl;
-        throw std::exception();
-    }
     return this->Array[this->arraySize - 1];
 }
 
 template<typename T>
 bool Vector<T>::empty() const{
-    if (this->arraySize == 0) {
-        return false;
-    }
-    return true;
+    return this->arraySize == 0;
 }
 
 template<typename T>
