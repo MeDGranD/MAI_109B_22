@@ -80,25 +80,23 @@ void Vector<T>::reserve(const size_t newCapacity) {
     }
 
     delete[] reinterpret_cast<char*>(this->Array);
-	this->Array = newArray;
-	this->arrayCapacity = newCapacity;
+    this->Array = newArray;
+    this->arrayCapacity = newCapacity;
 }
 
 template<typename T>
 void Vector<T>::resize(const size_t newSize, const T& value){
 
     if (this->arraySize > newSize) { 
-		for (size_t deleteValue = newSize; deleteValue < this->arraySize; ++deleteValue){
-			this->Array[deleteValue].~T();
-		}
-		this->arraySize = newSize;
-        return;
+	for (size_t deleteValue = newSize; deleteValue < this->arraySize; ++deleteValue){
+		this->Array[deleteValue].~T();
 	}
+	this->arraySize = newSize;
+    	return;
+    }
 
     if (newSize > this->arrayCapacity){
-        while (newSize > this->arrayCapacity){
-            this->reserve(this->arrayCapacity * 2);
-        }
+        this->reserve(newSize * 2);
     }
 
     for (size_t currentValue = this->arraySize; currentValue < newSize; ++currentValue){
