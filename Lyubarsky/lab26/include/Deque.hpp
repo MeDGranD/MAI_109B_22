@@ -12,6 +12,8 @@ namespace Deque{
     class iterator;
 }
 
+const size_t dequeSize = 6;
+
 template<typename T>
 class deque{
     friend struct Deque::iterator<T>;
@@ -24,7 +26,7 @@ public:
     deque<T>& operator=(const deque<T>&);
 
     void resize(const size_t, const T& = T());
-    size_t Size() const;
+    size_t size() const;
 
     void push_back(const T&);
     void push_front(const T&);
@@ -50,7 +52,7 @@ public:
 private:
     Vector<Deque::chunk<T>> chunks;
     size_t start;
-    size_t size;
+    size_t size_;
 };
 
 namespace Deque{
@@ -63,8 +65,7 @@ namespace Deque{
         chunk(const chunk<T>&);
         chunk<T>& operator=(const chunk<T>&);
 
-        template<typename Y>
-        T* operator+(const Y) const;
+        T* operator+(const size_t) const;
         T& operator[](const size_t) const;
 
         ~chunk();

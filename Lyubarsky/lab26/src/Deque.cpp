@@ -5,7 +5,7 @@ deque<T>::deque(){
 
     this->chunks.resize(2);
     this->start = 6;
-    this->size = 0;
+    this->size_ = 0;
 
 }
 
@@ -24,14 +24,14 @@ deque<T>::deque(const std::initializer_list<T>& list): deque(){
 template<typename T>
 deque<T>::deque(const deque<T>& other): deque(){
     this->chunks = other.chunks;
-    this->size = other.size;
+    this->size_ = other.size_;
     this->start = other.start;
 }
 
 template<typename T>
 deque<T>& deque<T>::operator=(const deque<T>& other){
     this->chunks = other.chunks;
-    this->size = other.size;
+    this->size_ = other.size_;
     this->start = other.start;
     return *this;
 }
@@ -39,67 +39,66 @@ deque<T>& deque<T>::operator=(const deque<T>& other){
 template<typename T>
 void deque<T>::resize(const size_t newSize, const T& value){
 
-    if (this->size < newSize){
-        for(size_t currentValue = this->size + newSize; currentValue < this->start + this->size; ++currentValue){
-            this->chunks[currentValue/6][currentValue%6].~T();
+    if (this->size_ > newSize){
+        for(size_t currentValue = this->start + newSize; currentValue < this->start + this->size_; ++currentValue){
+            this->chunks[currentValue / dequeSize][currentValue % dequeSize].~T();
         }
         return;
     }
 
-    size_t freeSpace = this->chunks.size() * 6 - (this->size + this->start);
-    size_t neededSpace = newSize - this->size;
+    size_t freeSpace = this->chunks.size() * dequeSize - (this->size_ + this->start);
+    size_t neededSpace = newSize - this->size_;
 
     if (freeSpace < neededSpace){
-        this->chunks.resize(this->chunks.size() *3 / 2);
+        this->chunks.resize(this->chunks.size() + neededSpace * 3 / 2);
     }
-
-    for (size_t currentValue = this->start + this->size; currentValue < this->start + newSize; ++currentValue){
-        new(this->chunks[currentValue/6] + currentValue%6)  T(value);
+    for (size_t currentValue = this->start + this->size_; currentValue < this->start + newSize; ++currentValue){
+        new(this->chunks[currentValue / dequeSize] + currentValue % dequeSize)  T(value);
     }
-    this->size = newSize;
+    this->size_ = newSize;
 }
 
 template<typename T>
-size_t deque<T>::Size() const{
-    return this->size;
+size_t deque<T>::size() const{
+    return this->size_;
 }
 
 template<typename T>
 void deque<T>::push_back(const T& value) {
 
-    if (this->start + this->size >= this->chunks.size() * 6){
+    if (this->start + this->size_ >= this->chunks.size() * dequeSize){
         this->chunks.resize(this->chunks.size() * 3 / 2);
     }
-    size_t index = this->size + this->start;
-    new(this->chunks[index/6] + index%6) T(value);
-    ++this->size;
+    size_t index = this->size_ + this->start;
+    new(this->chunks[index / dequeSize] + index % dequeSize) T(value);
+    ++this->size_;
 }
 
 template<typename T>
 void deque<T>::push_front(const T& value){
     if(this->start == 0){
         Vector<Deque::chunk<T>> newChunks(this->chunks.size() * 3 / 2);
-        for (size_t currentValue = this->start; currentValue < this->size + this->start; ++currentValue){
-            size_t newIndex = (newChunks.size() - this->chunks.size()) * 6 + currentValue;
-            new(newChunks[newIndex/6] + newIndex%6) T(this->chunks[currentValue/6][currentValue%6]);
+        for (size_t currentValue = this->start; currentValue < this->size_ + this->start; ++currentValue){
+            size_t newIndex = (newChunks.size() - this->chunks.size()) * dequeSize + currentValue;
+            new(newChunks[newIndex / dequeSize] + newIndex % dequeSize) T(this->chunks[currentValue / dequeSize][currentValue % dequeSize]);
         }
-        this->start = (newChunks.size() - this->chunks.size()) * 6;
+        this->start = (newChunks.size() - this->chunks.size()) * dequeSize;
         this->chunks = newChunks;
     }
     --this->start;
-    ++this->size;
-    new(this->chunks[this->start/6] + this->start%6) T(value);
+    ++this->size_;
+    new(this->chunks[this->start / dequeSize] + this->start % dequeSize) T(value);
 }
 
 template<typename T>
 template<typename ...Args>
 void deque<T>::emplace_back(const Args&...args){
-    if (this->start + this->size >= this->chunks.size() * 6){
+    if (this->start + this->size_ >= this->chunks.size() * dequeSize){
         this->chunks.resize(this->chunks.size() * 3 / 2);
     }
-    size_t index = this->size + this->start;
-    new(this->chunks[index/6] + index%6) T(args...);
-    ++this->size;
+    size_t index = this->size_ + this->start;
+    new(this->chunks[index / dequeSize] + index % dequeSize) T(args...);
+    ++this->size_;
 }
 
 template<typename T>
@@ -107,41 +106,41 @@ template<typename ...Args>
 void deque<T>::emplace_front(const Args&...args){
     if(this->start == 0){
         Vector<Deque::chunk<T>> newChunks(this->chunks.size() * 3 / 2);
-        for (size_t currentValue = this->start; currentValue < this->size + this->start; ++currentValue){
-            size_t newIndex = (newChunks.size() - this->chunks.size()) * 6 + currentValue;
-            new(newChunks[newIndex/6] + newIndex%6) T(this->chunks[currentValue/6][currentValue%6]);
+        for (size_t currentValue = this->start; currentValue < this->size_ + this->start; ++currentValue){
+            size_t newIndex = (newChunks.size() - this->chunks.size()) * dequeSize + currentValue;
+            new(newChunks[newIndex / dequeSize] + newIndex % dequeSize) T(this->chunks[currentValue / dequeSize][currentValue % dequeSize]);
         }
-        this->start = (newChunks.size() - this->chunks.size()) * 6;
+        this->start = (newChunks.size() - this->chunks.size()) * dequeSize;
         this->chunks = newChunks;
     }
 
     --this->start;
-    ++this->size;
+    ++this->size_;
     new (this->chunks[this->start/6] + this->start%6)  T(args...);
 }
 
 template<typename T>
 void deque<T>::pop_back(){
-    size_t index = this->size + this->start - 1;
-    this->chunks[index/6][index%6].~T();
-    --this->size;
+    size_t index = this->size_ + this->start - 1;
+    this->chunks[index / dequeSize][index % dequeSize].~T();
+    --this->size_;
 }
 
 template<typename T>
 void deque<T>::pop_front(){
-    this->chunks[this->start/6][this->start%6].~T();
+    this->chunks[this->start / dequeSize][this->start % dequeSize].~T();
     ++this->start;
-    --this->size;
+    --this->size_;
 }
 
 template<typename T>
 T& deque<T>::front() const{
-    return this->chunks[this->start/6][this->start%6];
+    return this->chunks[this->start / dequeSize][this->start % dequeSize];
 }
 
 template<typename T>
 T& deque<T>::back() const{
-    return this->chunks[(this->start + this->size - 1)/6][(this->start + this->size - 1)%6];
+    return this->chunks[(this->start + this->size_ - 1) / dequeSize][(this->start + this->size_ - 1) % dequeSize];
 }
 
 template<typename T>
@@ -152,14 +151,16 @@ Deque::iterator<T> deque<T>::begin() const{
 template<typename T>
 Deque::iterator<T> deque<T>::end() const{
     Deque::iterator<T> returnIterator(*this);
-    returnIterator.currentIndex = this->start + this->size;
+    returnIterator.currentIndex = this->start + this->size_;
     return returnIterator;
 }
 
 template<typename T>
 void deque<T>::sort(const Deque::iterator<T>& start, const Deque::iterator<T>& end){
 
-    if(end < start) return;
+    if(end < start) {
+        return;
+    }
     if(start.currentDeque == nullptr){
         this->sort(this->begin(), --this->end());
     }
@@ -210,7 +211,7 @@ void deque<T>::sort(const Deque::iterator<T>& start, const Deque::iterator<T>& e
 
 template<typename T>
 deque<T> deque<T>::operator+(const deque<T>& other) const{
-    deque<T> returnDeque(this->size + other.size);
+    deque<T> returnDeque(this->size_ + other.size_);
     for(Deque::iterator<T> it(other); it < other.end(); ++it){
         returnDeque.push_back(T(*it));
     }
@@ -223,7 +224,7 @@ deque<T> deque<T>::operator+(const deque<T>& other) const{
 
 template<typename T>
 deque<T>& deque<T>::operator+=(const deque<T>& other){
-    this->resize(this->size + other.size);
+    this->resize(this->size_ + other.size_);
     for(Deque::iterator<T> it(other); it < other.end(); ++it){
         this->push_back(T(*it));
     }
@@ -234,24 +235,23 @@ deque<T>& deque<T>::operator+=(const deque<T>& other){
 namespace Deque{
     template<typename T>
     chunk<T>::chunk(){
-        this->array = reinterpret_cast<T*>(new char[sizeof(T)*6]);
+        this->array = reinterpret_cast<T*>(new char[sizeof(T) * dequeSize]);
     }
     template<typename T>
     chunk<T>::chunk(const chunk<T>& other): chunk(){
-        for(size_t currentValue = 0; currentValue < 6; ++currentValue){
+        for(size_t currentValue = 0; currentValue < dequeSize; ++currentValue){
             new(this->array + currentValue) T(other.array[currentValue]);
         }
     }
     template<typename T>
     chunk<T>& chunk<T>::operator=(const chunk<T>& other){
-        for(size_t currentValue = 0; currentValue < 6; ++currentValue){
+        for(size_t currentValue = 0; currentValue < dequeSize; ++currentValue){
             this->array[currentValue].~T();
             new(this->array + currentValue) T(other.array[currentValue]);
         }
     }
     template<typename T>
-    template<typename Y>
-    T* chunk<T>::operator+(const Y plus) const{
+    T* chunk<T>::operator+(const size_t plus) const{
         return (this->array + plus);
     }
     template<typename T>
