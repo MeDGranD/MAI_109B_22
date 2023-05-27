@@ -12,7 +12,8 @@ namespace Deque{
     class iterator;
 }
 
-const size_t dequeSize = 6;
+const size_t chunkSize = 6;
+const size_t resizeConst = 2;
 
 template<typename T>
 class deque{
