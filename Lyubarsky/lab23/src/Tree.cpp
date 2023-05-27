@@ -92,7 +92,7 @@ void Tree<T>::visualize(TreeNode<T>* node) const {
     }
     visualize(node->nextRightNode);
 
-    for (size_t i = 0; i < node->depth; ++i){
+    for (size_t currentDepth = 0; currentDepth < node->depth; ++currentDepth){
         std::cout << '\t';
     }
     std::cout << node->data << std::endl;
