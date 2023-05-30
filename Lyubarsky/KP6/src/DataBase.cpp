@@ -2,46 +2,56 @@
 
 DataBase::DataBase(){
     this->name = "default";
-    if(std::filesystem::exists(name)){
+
+    if(std::filesystem::exists(this->name)){
         this->open();
     }
     else{
-        this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
+        this->creatTable();
         this->save();
     }
 }
 
 DataBase::DataBase(std::string& name){
     this->name = name;
-    if(std::filesystem::exists(name)){
+
+    if(std::filesystem::exists(this->name)){
         this->open();
     }
     else{
-        this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
+        this->creatTable();
         this->save();
     }
 }
 
+void DataBase::creatTable(){
+    this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
+}
+
 void DataBase::print(size_t indexOfTable) const{
+
     for(size_t currentCollum = 0; currentCollum < tables[indexOfTable].collumNames.size(); ++ currentCollum){
-        std::cout << tables[indexOfTable].collumNames[currentCollum] << ' ';
+        std::cout << tables[indexOfTable].collumNames[currentCollum] << '\t';
     }
     std::cout << std::endl;
 
     for(size_t currentRow = 0; currentRow < tables[indexOfTable].table.size(); ++currentRow){
         for(size_t currentCollum = 0; currentCollum < tables[indexOfTable].table[currentRow].size(); ++currentCollum){
-            std::cout << tables[indexOfTable].table[currentRow][currentCollum] << ' ';
+            std::cout << tables[indexOfTable].table[currentRow][currentCollum] << '\t';
         }
         std::cout << std::endl;
     }
 }
 
 void DataBase::open(){
+
     fileReader.open(this->name);
     size_t tableCounter;
+
     fileReader >> tableCounter;
 
     for(size_t currentTable = 0; currentTable < tableCounter; ++currentTable){
+
         size_t rowCounter;
         size_t collumCounter;
         fileReader >> rowCounter >> collumCounter;
@@ -49,6 +59,7 @@ void DataBase::open(){
         std::string getterStr;
 
         tables.emplace_back();
+
         for(size_t currentColum = 0; currentColum < collumCounter; ++currentColum){
             std::string getterStr;
             fileReader >> getterStr;
@@ -70,10 +81,13 @@ void DataBase::open(){
 }
 
 void DataBase::save(){
+
+    fileWritter.open(this->name);
     fileWritter << this->tables.size() << '\n';
 
     for(size_t currentTable = 0; currentTable < tables.size(); ++currentTable){
-        fileWritter << this->tables[currentTable].table.size() << ' ' << this->tables[currentTable].table[0].size() << '\n';
+
+        fileWritter << this->tables[currentTable].table.size() << ' ' << this->tables[currentTable].collumNames.size() << '\n';
 
         for(size_t currentCollum = 0; currentCollum < tables[currentTable].collumNames.size(); ++ currentCollum){
             fileWritter << tables[currentTable].collumNames[currentCollum] << ' ';
@@ -93,4 +107,29 @@ void DataBase::save(){
 
 DataBase::~DataBase(){
     this->save();
+}
+
+void DataBase::womenStateGrantsCounter(size_t tableIndex) const{
+
+    std::cout << "Set minimumof marks:" << std::endl;
+    double minimum;
+
+    std::cin >> minimum;
+    size_t counter = 0;
+
+    for(size_t currentRow = 0; currentRow < this->tables[tableIndex].table.size(); ++currentRow){
+        if(this->tables[tableIndex].table[currentRow][2] == "female"){
+            double average = 0;
+            
+            for(size_t currentColum = 4; currentColum < this->tables[tableIndex].collumNames.size(); ++currentColum){
+                average += std::stoi(this->tables[tableIndex].table[currentRow][currentColum]);
+            }
+
+            average /= (this->tables[tableIndex].collumNames.size() - 4);
+            if(average >= minimum){
+                ++counter;
+            }
+        }
+    }
+    std::cout << counter << '\n';
 }

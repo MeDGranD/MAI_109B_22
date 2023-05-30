@@ -10,11 +10,12 @@ class Table{
     friend class DataBase;
 public:
     Table(){}
-    Table(Vector<std::string>&);
-    void addRow(Vector<std::string>&);
+    Table(const Vector<std::string>&);
 private:
     Vector<std::string> collumNames;
     Vector<Vector<std::string>> table;
 };
+
+#include "../src/Table.cpp"
 
 #endif

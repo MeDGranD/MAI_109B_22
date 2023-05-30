@@ -10,11 +10,13 @@ public:
     DataBase();
     DataBase(std::string&);
 
+    void creatTable();
+
     void open();
     void print(size_t) const;
     void save();
 
-    //void womenStateGrantsCounter();
+    void womenStateGrantsCounter(size_t) const;
 
     ~DataBase();
 
@@ -26,5 +28,7 @@ private:
     std::ofstream fileWritter;
 
 };
+
+#include "../src/DataBase.cpp"
 
 #endif
