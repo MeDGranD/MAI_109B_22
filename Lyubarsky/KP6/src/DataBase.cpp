@@ -7,24 +7,24 @@ DataBase::DataBase(){
         this->open();
     }
     else{
-        this->creatTable();
+        this->createTable();
         this->save();
     }
 }
 
-DataBase::DataBase(std::string& name){
+DataBase::DataBase(const std::string& name){
     this->name = name;
 
     if(std::filesystem::exists(this->name)){
         this->open();
     }
     else{
-        this->creatTable();
+        this->createTable();
         this->save();
     }
 }
 
-void DataBase::creatTable(){
+void DataBase::createTable(){
     this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
 }
 
@@ -45,18 +45,19 @@ void DataBase::print(size_t indexOfTable) const{
 
 void DataBase::open(){
 
-    fileReader.open(this->name);
+    fileReader.open(static_cast<std::string>(this->name));
+
     size_t tableCounter;
+    size_t rowCounter;
+    size_t collumCounter;
+    std::string getterStr;
 
     fileReader >> tableCounter;
 
     for(size_t currentTable = 0; currentTable < tableCounter; ++currentTable){
 
-        size_t rowCounter;
-        size_t collumCounter;
+        
         fileReader >> rowCounter >> collumCounter;
-
-        std::string getterStr;
 
         tables.emplace_back();
 
@@ -69,7 +70,6 @@ void DataBase::open(){
         for(size_t currentRow = 0; currentRow < rowCounter; ++currentRow){
             tables[currentTable].table.emplace_back(collumCounter);
             for(size_t currentCollum = 0; currentCollum < collumCounter; ++currentCollum){
-                std::string getterStr;
                 fileReader >> getterStr;
                 tables[currentTable].table[currentRow][currentCollum] = getterStr;
             }   
@@ -82,7 +82,7 @@ void DataBase::open(){
 
 void DataBase::save(){
 
-    fileWritter.open(this->name);
+    fileWritter.open(static_cast<std::string>(this->name));
     fileWritter << this->tables.size() << '\n';
 
     for(size_t currentTable = 0; currentTable < tables.size(); ++currentTable){
@@ -120,7 +120,7 @@ void DataBase::womenStateGrantsCounter(size_t tableIndex) const{
     for(size_t currentRow = 0; currentRow < this->tables[tableIndex].table.size(); ++currentRow){
         if(this->tables[tableIndex].table[currentRow][2] == "female"){
             double average = 0;
-            
+
             for(size_t currentColum = 4; currentColum < this->tables[tableIndex].collumNames.size(); ++currentColum){
                 average += std::stoi(this->tables[tableIndex].table[currentRow][currentColum]);
             }

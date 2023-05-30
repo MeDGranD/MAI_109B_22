@@ -8,9 +8,9 @@
 class DataBase{
 public:
     DataBase();
-    DataBase(std::string&);
+    DataBase(const std::string&);
 
-    void creatTable();
+    void createTable();
 
     void open();
     void print(size_t) const;
@@ -21,7 +21,7 @@ public:
     ~DataBase();
 
 private:
-    std::string name;
+    std::string_view name;
     Vector<Table> tables;
 
     std::ifstream fileReader;
