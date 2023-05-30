@@ -12,5 +12,5 @@
 | [`lab-26`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/lab26) | 2,4 |
 | [`KP6`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/KP6)      | 35                  |
 | [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/KP7)      | 2,2                  |
-| [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/KP8)      | 7,5,4                 |
+| [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/KP8)      | 7,6,4                 |
 | [`KP9`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Stepanov/KP9)      | 8,3                 |
