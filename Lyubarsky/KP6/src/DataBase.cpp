@@ -1,89 +1,96 @@
-#include "DataBase.hpp"
+#include "../include/DataBase.hpp"
 
-DataBase::DataBase(std::string dataBaseName, bool open){
-    this->dataBaseName = dataBaseName;
-    if (open){
-        dataBaseRead.open(dataBaseName);
-        std::string getterLine;
-        getline(dataBaseRead, getterLine);
-        amountOfTables = std::stoi(getterLine);
-        this->tables = new Table*[amountOfTables];
-        for (size_t currentTable = 0; currentTable < amountOfTables; ++currentTable){
-            std::string name;
-            size_t lines;
-            size_t collums;
-            getline(dataBaseRead, name);
-            getline(dataBaseRead, getterLine);
-            lines = std::stoi(getterLine);
-            getline(dataBaseRead, getterLine);
-            collums = std::stoi(getterLine);
-            std::string* collumsNames = new std::string[collums];
-            for (size_t currentCollum = 0; currentCollum < collums; ++currentCollum){
-                getline(dataBaseRead, collumsNames[currentCollum]);
-            }
-            tables[currentTable] = new Table(collums, collumsNames, name);
-            for (size_t currentLine = 0; currentLine < lines; ++currentLine){
-                tables[currentTable]->AddLine();
-                for (size_t currentCollum = 0; currentCollum < collums; ++currentCollum){
-                    std::string value;
-                    getline(dataBaseRead, value);
-                    tables[currentTable]->ChangeElement(currentLine, currentCollum, value);
-                }
-            }
-            delete[] collumsNames;
+DataBase::DataBase(){
+    this->name = "default";
+    if(std::filesystem::exists(name)){
+        this->open();
+    }
+    else{
+        this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
+        this->save();
+    }
+}
+
+DataBase::DataBase(std::string& name){
+    this->name = name;
+    if(std::filesystem::exists(name)){
+        this->open();
+    }
+    else{
+        this->tables.emplace_back(Vector<std::string>{"name", "lastname", "sex", "group", "IT project", "Programming", "Economics", "Philosophy", "Mathematics"});
+        this->save();
+    }
+}
+
+void DataBase::print(size_t indexOfTable) const{
+    for(size_t currentCollum = 0; currentCollum < tables[indexOfTable].collumNames.size(); ++ currentCollum){
+        std::cout << tables[indexOfTable].collumNames[currentCollum] << ' ';
+    }
+    std::cout << std::endl;
+
+    for(size_t currentRow = 0; currentRow < tables[indexOfTable].table.size(); ++currentRow){
+        for(size_t currentCollum = 0; currentCollum < tables[indexOfTable].table[currentRow].size(); ++currentCollum){
+            std::cout << tables[indexOfTable].table[currentRow][currentCollum] << ' ';
         }
-        dataBaseRead.close();
-        
+        std::cout << std::endl;
     }
-    else {this->tables = new Table*[0];}
 }
 
-int DataBase::getTableNumber(std::string tableName){
-    for (size_t currentTable = 0; currentTable < amountOfTables; ++currentTable){
-        if (tables[currentTable]->getName()==tableName){
-            return currentTable;
+void DataBase::open(){
+    fileReader.open(this->name);
+    size_t tableCounter;
+    fileReader >> tableCounter;
+
+    for(size_t currentTable = 0; currentTable < tableCounter; ++currentTable){
+        size_t rowCounter;
+        size_t collumCounter;
+        fileReader >> rowCounter >> collumCounter;
+
+        std::string getterStr;
+
+        tables.emplace_back();
+        for(size_t currentColum = 0; currentColum < collumCounter; ++currentColum){
+            std::string getterStr;
+            fileReader >> getterStr;
+            tables[currentTable].collumNames.push_back(getterStr);
+        }
+
+        for(size_t currentRow = 0; currentRow < rowCounter; ++currentRow){
+            tables[currentTable].table.emplace_back(collumCounter);
+            for(size_t currentCollum = 0; currentCollum < collumCounter; ++currentCollum){
+                std::string getterStr;
+                fileReader >> getterStr;
+                tables[currentTable].table[currentRow][currentCollum] = getterStr;
+            }   
         }
     }
-    return -1;
+
+    fileReader.close();
+
 }
 
-void DataBase::CREATE(size_t collums, std::string* collumsNames, std::string tableName){
-    ++amountOfTables;
-    Table** newArr = new Table*[amountOfTables];
-    for (size_t currentTable = 0; currentTable < amountOfTables - 1; ++currentTable){
-        newArr[currentTable] = tables[currentTable];
-    }
-    newArr[amountOfTables - 1] = new Table(collums, collumsNames, tableName);
-    delete[] tables;
-    tables = newArr;
-}
+void DataBase::save(){
+    fileWritter << this->tables.size() << '\n';
 
-void DataBase::Save(){
-    dataBaseWrite.open(dataBaseName);
-    dataBaseWrite << amountOfTables << std::endl;
-    for (size_t currentTable = 0; currentTable < amountOfTables; ++currentTable){
-        dataBaseWrite << tables[currentTable]->GetDescription();
-        tables[currentTable]->SaveWrite(dataBaseWrite);
-    }
-    dataBaseWrite.close();
-}
+    for(size_t currentTable = 0; currentTable < tables.size(); ++currentTable){
+        fileWritter << this->tables[currentTable].table.size() << ' ' << this->tables[currentTable].table[0].size() << '\n';
 
-void DataBase::DELETE(std::string deleteName){
-    --amountOfTables;
-    Table** newArr = new Table*[amountOfTables];
-    int deletedTable = 0;
-    for (size_t currentTable = 0; currentTable < amountOfTables; ++currentTable){
-        if(tables[currentTable]->getName()==deleteName){++deletedTable; delete tables[currentTable];}
-        newArr[currentTable] = tables[currentTable + deletedTable];
+        for(size_t currentCollum = 0; currentCollum < tables[currentTable].collumNames.size(); ++ currentCollum){
+            fileWritter << tables[currentTable].collumNames[currentCollum] << ' ';
+        }
+        fileWritter << std::endl;
+
+        for(size_t currentRow = 0; currentRow < tables[currentTable].table.size(); ++currentRow){
+            for(size_t currentCollum = 0; currentCollum < tables[currentTable].table[currentRow].size(); ++currentCollum){
+                fileWritter << tables[currentTable].table[currentRow][currentCollum] << ' ';
+            }
+        fileWritter << std::endl;
     }
-    delete[] tables;
-    tables = newArr;
+    }
+
+    fileWritter.close();
 }
 
 DataBase::~DataBase(){
-    this->Save();
-    for (size_t currentTable = 0; currentTable < amountOfTables; ++currentTable){
-        delete tables[currentTable];
-    }
-    delete[] tables;
+    this->save();
 }
