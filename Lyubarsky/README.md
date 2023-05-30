@@ -10,7 +10,7 @@
 | [`lab-24`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/lab24) | None                |
 | [`lab-25`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/lab25) | None                 |
 | [`lab-26`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/lab26) | None |
-| [`KP6`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/KP6)      | None                  |
+| [`KP6`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/KP6)      | 12                  |
 | [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/KP7)      | None                  |
 | [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/KP8)      | None                 |
 | [`KP9`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Lyubovarsky/KP9)      | None                  |
