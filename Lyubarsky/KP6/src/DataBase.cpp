@@ -56,13 +56,11 @@ void DataBase::open(){
 
     for(size_t currentTable = 0; currentTable < tableCounter; ++currentTable){
 
-        
         fileReader >> rowCounter >> collumCounter;
 
         tables.emplace_back();
 
         for(size_t currentColum = 0; currentColum < collumCounter; ++currentColum){
-            std::string getterStr;
             fileReader >> getterStr;
             tables[currentTable].collumNames.push_back(getterStr);
         }
