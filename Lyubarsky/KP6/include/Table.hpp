@@ -2,7 +2,7 @@
 #define TABLE_HPP
 
 #include <string>
-#include "Vector.hpp"
+#include "../../KP7/include/Vector.hpp"
 
 class DataBase;
 
