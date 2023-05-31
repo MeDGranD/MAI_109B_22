@@ -27,32 +27,32 @@ void Table<T>::sort(){
         indexStack.pop_back();
 
         if((end - start) > 1){
-            size_t midle = end;
+            size_t middle = end;
             size_t compareElement = start;
 
-            while(compareElement != midle){
-                if(compareElement < midle){
-                    if(this->table[compareElement].first > this->table[midle].first){
-                        std::pair<double, T> tempPair = this->table[midle];
-                        this->table[midle] = this->table[compareElement];
+            while(compareElement != middle){
+                if(compareElement < middle){
+                    if(this->table[compareElement].first > this->table[middle].first){
+                        std::pair<double, T> tempPair = this->table[middle];
+                        this->table[middle] = this->table[compareElement];
                         this->table[compareElement] = tempPair;
 
-                        size_t tempSize = midle;
-                        midle = compareElement;
+                        size_t tempSize = middle;
+                        middle = compareElement;
                         compareElement = tempSize;
 
                         continue;
                     }
                     ++compareElement;
                 }
-                if(compareElement > midle){
-                    if(this->table[compareElement].first < this->table[midle].first){
-                        std::pair<double, T> temp = this->table[midle];
-                        this->table[midle] = this->table[compareElement];
+                if(compareElement > middle){
+                    if(this->table[compareElement].first < this->table[middle].first){
+                        std::pair<double, T> temp = this->table[middle];
+                        this->table[middle] = this->table[compareElement];
                         this->table[compareElement] = temp;
 
-                        size_t stemp = midle;
-                        midle = compareElement;
+                        size_t stemp = middle;
+                        middle = compareElement;
                         compareElement = stemp;
 
                         continue;
@@ -61,12 +61,12 @@ void Table<T>::sort(){
                 }
             }
 
-            if(start != midle){
+            if(start != middle){
                 indexStack.push_back(start);
-                indexStack.push_back(midle - 1);
+                indexStack.push_back(middle - 1);
             }
-            if(end != midle){
-                indexStack.push_back(midle + 1);
+            if(end != middle){
+                indexStack.push_back(middle + 1);
                 indexStack.push_back(end);
             }
         }
