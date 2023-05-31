@@ -100,12 +100,12 @@ void List<T>::pop_front(){
 }
 
 template<typename T>
-void List<T>::insert(iterator<T>& it, const T& data){
+void List<T>::insert(const iterator<T>& it, const T& data){
     it.currentNode->nextNode = new node(data, it.currentNode->nextNode);
 }
 
 template<typename T>
-void List<T>::erase(iterator<T>& start, iterator<T>& end){
+void List<T>::erase(const iterator<T>& start, const iterator<T>& end){
 
     iterator<T> eraseIt = start;
     ++eraseIt;
@@ -167,61 +167,9 @@ List<T>::~List(){
 }
 
 template<typename T>
-node<T>::node(const T& value, node<T>* next){
-    this->nextNode = next;
-    this->data = value;
-}
-
-template<typename T>
-iterator<T>::iterator(){
-    this->currentNode = nullptr;
-}
-
-template<typename T>
-iterator<T>::iterator(const List<T>& list){
-    this->currentNode = list.start;
-}
-
-template<typename T>
-iterator<T>::iterator(node<T>* node){
-    this->currentNode = node;
-}
-
-template<typename T>
-iterator<T>& iterator<T>::operator++(){
-    this->currentNode = this->currentNode->nextNode;
-    return *this;
-}
-
-template<typename T>
-T& iterator<T>::operator*() const{
-    return this->currentNode->data;
-}
-
-template<typename T>
-iterator<T> iterator<T>::operator+(size_t size){
-    iterator<T> returnIterator(*this);
-    while(size != 0){
-        ++returnIterator;
-        --size;
-    }
-    return returnIterator;
-}
-
-template<typename T>
-bool iterator<T>::operator==(const iterator<T>& other) const{
-    return (other.currentNode == this->currentNode);
-}
-
-template<typename T>
-bool iterator<T>::operator!=(const iterator<T>& other) const{
-    return !(*this == other);
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& stream, const List<T>& list){
-    node<T>* currentNode = list.start;
-    while(currentNode->nextNode != list.start){
+std::ostream& List<T>::operator<<(std::ostream& stream){
+    node<T>* currentNode = this->start;
+    while(currentNode->nextNode != this->start){
         stream << currentNode->data << ' ';
         currentNode = currentNode->nextNode;
     }
