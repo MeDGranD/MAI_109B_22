@@ -11,6 +11,6 @@
 | [`lab-25`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/lab25) | None                 |
 | [`lab-26`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/lab26) | None |
 | [`KP6`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/KP6)      | None                  |
-| [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/KP7)      | None                  |
+| [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/KP7)      | 1, 4                   |
 | [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/KP8)      | None                 |
 | [`KP9`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Nedosekin/KP9)      | None                  |

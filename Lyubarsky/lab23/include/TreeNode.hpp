@@ -15,7 +15,7 @@ public:
 
 private:
     T data;
-    size_t depth = 0;
+    int64_t depth = 0;
 
     TreeNode<T>* nextLeftNode;
     TreeNode<T>* nextRightNode;

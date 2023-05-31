@@ -11,6 +11,6 @@
 | [`lab-25`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/lab25) | None                 |
 | [`lab-26`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/lab26) | None |
 | [`KP6`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP6)      | None                  |
-| [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP7)      | None                  |
-| [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP8)      | None                 |
+| [`KP7`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP7)      | 2, 11                  |
+| [`KP8`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP8)      | 4, 4, 13                 |
 | [`KP9`](https://github.com/Maxsmile123/MAI_109B_22/tree/main/Fedorov/KP9)      | None                  |
