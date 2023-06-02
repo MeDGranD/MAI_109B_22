@@ -1,10 +1,10 @@
 #include "../include/Nary_tree.hpp"
 
-bool Nary_tree::isOperator(char simbol){
+bool Nary_tree::isOperator(const char simbol) const{
     return (simbol == '-' || simbol == '+' || simbol == '*' || simbol == '/' || simbol == '^');
 }
 
-size_t Nary_tree::getPriority(char oper){
+size_t Nary_tree::getPriority(const char oper) const{
     switch(oper){
         case('+'):
             return 1;
@@ -22,7 +22,7 @@ size_t Nary_tree::getPriority(char oper){
     return 0;
 }
 
-void Nary_tree::print(Node* node, size_t depth){
+void Nary_tree::print(Node* node, size_t depth) const{
 
     if(node == nullptr){
         node = this->root;

@@ -6,7 +6,7 @@
 class Node{
 public:
     Node() = default;
-    Node(char);
+    Node(const char);
     std::string val;
     Vector<Node*> childs;
 };

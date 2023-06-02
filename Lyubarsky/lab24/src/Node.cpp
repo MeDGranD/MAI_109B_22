@@ -1,5 +1,5 @@
 #include "../include/Node.hpp"
 
-Node::Node(char val){
+Node::Node(const char val){
     this->val = val;
 }

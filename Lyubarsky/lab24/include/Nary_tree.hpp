@@ -9,10 +9,10 @@ class Nary_tree{
 public:
     Nary_tree() = default;
 
-    void print(Node* = nullptr, size_t = 0);
+    void print(Node* = nullptr, size_t = 0) const;
 
-    bool isOperator(char);
-    size_t getPriority(char);
+    bool isOperator(const char) const;
+    size_t getPriority(const char) const;
 
     void makeBinaryTree();
     void makeNaryTree(Node* = nullptr);
