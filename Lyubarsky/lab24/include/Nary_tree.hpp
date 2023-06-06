@@ -14,7 +14,7 @@ public:
     bool isOperator(const char) const;
     size_t getPriority(const char) const;
 
-    void makeBinaryTree();
+    void makeBinaryTree(const std::string& = "");
     void makeNaryTree(Node* = nullptr);
     void incrieseAmountOfChilds(Node* = nullptr);
 

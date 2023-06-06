@@ -38,9 +38,14 @@ void Nary_tree::print(Node* node, size_t depth) const{
 
 }
 
-void Nary_tree::makeBinaryTree(){
-
-    std::cin >> this->infStr;
+void Nary_tree::makeBinaryTree(const std::string& expression){
+    
+    if(expression == ""){
+        std::cin >> this->infStr;
+    }
+    else{
+        this->infStr = expression;
+    }
 
     deque<char> operators;
     deque<Node*> nodes;
